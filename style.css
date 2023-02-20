@@ -16,6 +16,14 @@
   margin: 1% 0;
 }
 
+.ultra-big{
+  margin: auto;
+  font-size: 15rem;
+  text-align: center;
+  color: #808080;
+  
+}
+
 .msg {
   padding: 1%;
   margin: 1%;
