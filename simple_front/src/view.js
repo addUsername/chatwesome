@@ -10,6 +10,10 @@ export function diasableChat(){
     document.getElementById("msg").disabled = true 
     document.getElementById("msg").value = "Please create a new lobby and sahre it to start chatting!!"
     document.getElementById("emoji").disabled = true
+    document.getElementById("chat-window").innerHTML = `
+        <p class="ultra-big">(≥o≤)</p>
+    `
+
 }
 
 export function onMessageCB(message) {
@@ -45,10 +49,13 @@ export function toastError(msg){
 
 export function toastInfo(msg){
     const html = 
-   ' <div class="alert alert-primary" role="alert"><input id=copy-value class="form-control" value="'+msg+'"></input><button id=copy class="btn" type="button">Copy <i class="far"><img width="22" height="22" src="assets/copy.svg"/></i></button></div>'
-        document.getElementById("alert").innerHTML = html
-        document.getElementById("copy").onclick = function(){
+   ' <div class="alert alert-primary" role="alert"><p>Share this link to your private lobby</p><input id=copy-value class="form-control" value="'+msg+'"></input><button id="go-btn" class="btn" type="button"><i class="far"><img width="22" height="22" src="assets/open.svg"/></i></button></input><button id=copy class="btn" type="button">Copy <i class="far"><img width="22" height="22" src="assets/copy.svg"/></i></button></div>'
+    document.getElementById("alert").innerHTML = html
+    document.getElementById("copy").onclick = function(){
         navigator.clipboard.writeText(document.getElementById("copy-value").value);
+    }
+    document.getElementById("go-btn").onclick = function(){
+        window.location.assign(msg)
     }
 }
 

@@ -12,14 +12,20 @@ const PARAMS = {
 
 function init(){
 
+    document.addEventListener("keypress", (e) => {
+        if(e.key === "Enter"){
+            document.getElementById("submit").click()
+            e.preventDefault()
+        }
+    })
+
     document.getElementById("submit-room").onclick = function() {
         
         const createLobbyUrl ="https://chatwesome.herokuapp.com/api/new-lobby?id="+UUID
-        console.log(createLobbyUrl);
         fetch(createLobbyUrl).then(res =>
             res.json()
         ).then( json => {
-            const url = window.location+"?lobby="+json.lobby+"&lobby_token="+json.token
+            const url = window.location.origin+"/dist/index.html?lobby="+json.lobby+"&lobby_token="+json.token
             toastInfo(url)
 
         }).catch(function(err) {
