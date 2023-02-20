@@ -1,7 +1,17 @@
 let username = ""
+let oldChat = ""
 
 export function setUsername(u){
     username = u
+}
+
+export function enableChat(){
+
+    document.getElementById("submit").disabled = false
+    document.getElementById("msg").disabled = false 
+    document.getElementById("msg").value = ""
+    document.getElementById("emoji").disabled = false
+    document.getElementById("chat-window").innerHTML = '<div class="col" id="chat-content"></div>'
 }
 
 export function diasableChat(){
@@ -10,10 +20,10 @@ export function diasableChat(){
     document.getElementById("msg").disabled = true 
     document.getElementById("msg").value = "Please create a new lobby and sahre it to start chatting!!"
     document.getElementById("emoji").disabled = true
-    document.getElementById("chat-window").innerHTML = `
+    oldChat = document.getElementById("chat-window").innerHTML
+    oldChat = document.getElementById("chat-window").innerHTML = `
         <p class="ultra-big">(≥o≤)</p>
     `
-
 }
 
 export function onMessageCB(message) {
@@ -24,17 +34,23 @@ export function onMessageCB(message) {
         switch(message.event){
 
             case "phx_reply":
-                statusInfo("Joined as "+username)
+                enableChat()
+                statusInfo("🟢 Connected - Joined as "+username)
                 break;
             case "open":
-                statusInfo("Connected")
+                statusInfo("")
                 break;
             case "shout":
                 drawMessage(message.payload)
                 break;
-            case "ping":
-            case "pong":
-                toastPing()
+            case "error":
+                console.log(message.message);
+                break;
+            case "close":
+                console.log(message.message);
+                statusInfo("🔴 CONNECTION LOST, retrying...🔄")
+                diasableChat()
+                break;
             default:
                 break;
         }
@@ -75,11 +91,6 @@ function drawMessage(payload){
     msg.innerHTML += "<div class='footer'> " + payload.user + " </div>";
     row.appendChild(msg);
     div.appendChild(row)
-}
-
-
-function toastPing(){
-    //document.getElementById("status").innerText=msg
 }
 
 let emojiBtn = document.getElementById("emoji");

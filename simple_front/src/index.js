@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import ws from "./ws";
-import {onMessageCB, setUsername, diasableChat, toastError, toastInfo} from "./view";
+import ws from "./ws"
+var view = require("./view")
 var random_name = require('node-random-name');
 
-const USERNAME = random_name()
+const USERNAME = getName()
 const UUID = getUuid();
 const PARAMS = {
     lobby_token: new URLSearchParams(window.location.search).get("lobby_token"),
@@ -25,18 +25,18 @@ function init(){
         fetch(createLobbyUrl).then(res =>
             res.json()
         ).then( json => {
-            const url = window.location.origin+"/dist/index.html?lobby="+json.lobby+"&lobby_token="+json.token
-            toastInfo(url)
+            const url = window.location.href+"?lobby="+json.lobby+"&lobby_token="+json.token
+            view.toastInfo(url)
 
         }).catch(function(err) {
-            toastError("BE is unreachable :(")
+            view.toastError("BE is unreachable :(")
         })
     }
 
     if(chatAvailable()){
-        setUsername(USERNAME)
+        view.setUsername(USERNAME)
         const conn = new ws(UUID, USERNAME);
-        conn.setCallbacks(onMessageCB)
+        conn.setCallbacks(view.onMessageCB)
         conn.startConnection(PARAMS.lobby, PARAMS.lobby_token)
         document.getElementById("submit").onclick = function() {
             const msg =  document.getElementById("msg")
@@ -46,7 +46,7 @@ function init(){
             }
         }
     }else {
-        diasableChat()
+        view.diasableChat()
     }
     
 }
@@ -57,12 +57,23 @@ function chatAvailable(){
 
 function getUuid(){
     const old_uuid = sessionStorage.getItem("uuid")
-    if(sessionStorage.getItem("uuid")){
+    if(old_uuid){
         return old_uuid
     }
     const new_uuid = uuidv4();
     sessionStorage.setItem("uuid", new_uuid)
     return new_uuid
+}
+
+function getName(){
+
+    const old_name = sessionStorage.getItem("name")
+    if(old_name){
+        return old_name
+    }
+    const new_name = random_name();
+    sessionStorage.setItem("name", new_name)
+    return new_name
 }
 
 init()

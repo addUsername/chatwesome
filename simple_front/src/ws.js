@@ -25,7 +25,7 @@ export default class ws {
     }
 
     init(){
-        this.conn = new WebSocket(this.url);
+        this.conn = new WebSocket(this.url)
 
         this.conn.addEventListener('open', () => {
             this.onMessageCB({event:"open"})
@@ -43,11 +43,22 @@ export default class ws {
             
         });
 
+        this.conn.addEventListener("error", (e) => {
+            this.onMessageCB({event:"error", message: "Getting errors :/, wait or try F5 🙏"})
+        })
+
+        this.conn.addEventListener("close", (e) => {
+            this.onMessageCB({event:"close", message: "Connection lost, like violently.. retrying indefinitly just in case"})
+            setTimeout(() => {
+                this.init();                
+            },3000)
+        })
+
         this.conn.addEventListener("message", (e) => { 
             this.onMessageCB(e.data)
         });
 
-        this.conn.addEventListener("ping", (e) => {            
+        this.conn.addEventListener("ping", (e) => {
             this.onMessageCB({event:"ping"})
         });
 
