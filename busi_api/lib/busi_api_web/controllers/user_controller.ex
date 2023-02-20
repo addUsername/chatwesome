@@ -1,8 +1,6 @@
 defmodule BusiApiWeb.UserController do
   use BusiApiWeb, :controller
 
-  alias BusiApiWeb.Guardian
-
   action_fallback BusiApiWeb.FallbackController
 
   def createLobby(conn, params) do

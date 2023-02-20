@@ -10,7 +10,7 @@ defmodule BusiApiWeb.Endpoint do
     signing_salt: "UdPxyY9l"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  #socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   socket "/socket", BusiApiWeb.UserSocket#, websocket: true, longpoll: false
 

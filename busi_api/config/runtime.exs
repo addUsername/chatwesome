@@ -18,25 +18,20 @@ import Config
 # script that automatically sets the env var above.
 config :busi_api, BusiApiWeb.Endpoint, server: true
 
-###############
-#  READ THIS  #
-###############
-# For some reason elixir, under wsl, is not able to get env vars.. so i just hardcoded here. I know he implications
+# yep
+secret_key_base = System.get_env("KEY") || "BECVyctqRn8cInzlxtnRCxL7eNcDUC+VTtVrNrTcHZyDbCf9foPAxD6zW10D3x70"
 
-
-secret_key_base = "BECVyctqRn8cInzlxtnRCxL7eNcDUC+VTtVrNrTcHZyDbCf9foPAxD6zW10D3x70"
-
-host = System.get_env("PHX_HOST") || "0.0.0.0"
-port = System.get_env("PORT")
+host = System.get_env("PHX_HOST") || "127.0.0.1"
+port = System.get_env("PORT") || "4002"
 
 config :busi_api, BusiApiWeb.Endpoint,
-  url: [host: host, port: 4001, scheme: "http"],
+  url: [host: host, port: port, scheme: "http"],
   http: [
     # Enable IPv6 and bind on all interfaces.
     # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
     # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
     # for details about using IPv6 vs IPv4 and loopback vs public addresses.
-    ip: {0, 0, 0, 0, 0, 0, 0, 0},
+    ip: {0, 0, 0, 0},
     port: port
   ],
   secret_key_base: secret_key_base
