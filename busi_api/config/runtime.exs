@@ -18,6 +18,11 @@ import Config
 # script that automatically sets the env var above.
 config :busi_api, BusiApiWeb.Endpoint, server: true
 
+###############
+#  READ THIS  #
+###############
+# For some reason elixir, under wsl, is not able to get env vars.. so i just hardcoded here. I know he implications
+
 
 secret_key_base = "BECVyctqRn8cInzlxtnRCxL7eNcDUC+VTtVrNrTcHZyDbCf9foPAxD6zW10D3x70"
 
